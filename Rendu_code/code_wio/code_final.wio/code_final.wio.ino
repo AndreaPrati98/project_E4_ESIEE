@@ -40,8 +40,8 @@ TFT_eSprite spr = TFT_eSprite(&tft);
 
 //Sensors objects
 LIS3DHTR<TwoWire> lis;
-MAX30105 particleSensor; // Particle and Pulse Ox Sensor
-Adafruit_MLX90614 mlx = Adafruit_MLX90614(); // termometer
+MAX30105 particleSensor;                      // Particle and Pulse Ox Sensor
+Adafruit_MLX90614 mlx = Adafruit_MLX90614();  // termometer
 
 //Storage object
 File myFile;
@@ -129,7 +129,7 @@ void loop() {
   if (!openFile) {
     while (digitalRead(buttonOn) == HIGH)
       ;
-    myFile = SDf.open("data" + String(fileCounter) + ".csv", FILE_APPEND);
+    myFile = SD.open("data" + String(fileCounter) + ".csv", FILE_APPEND);
     drawRecordingBackground();
     openFile = true;
   }
@@ -241,7 +241,7 @@ void createSavingFile() {
 void LineGraph(long ir) {
   /*fonction en charge de mettre à jour les valeurs ir et de les afficher*/
   spr.fillSprite(TFT_WHITE);
-  data = ir/1000.0;
+  data = ir / 1000.0;
   if (ir_disp.size() > MAX_SIZE)  // IF IR display table of values > Max Values of table
   {
     ir_disp.pop();  // this is used to remove the first read variable
@@ -267,7 +267,7 @@ void LineGraph(long ir) {
   content
     .height(spr.height() - 30)             // actual height of the line chart
     .width(spr.width() - content.x() * 2)  // actual width of the line chart
-    .based_on(110.0)                          // Starting point of y-axis, must be a float                   
+    .based_on(110.0)                       // Starting point of y-axis, must be a float
     .show_circle(false)                    // drawing a cirle at each point, default is on.
     .value(ir_disp)                        // passing through the data to line graph
     .max_size(MAX_SIZE)
