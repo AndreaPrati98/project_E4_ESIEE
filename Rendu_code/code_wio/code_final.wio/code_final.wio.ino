@@ -135,6 +135,8 @@ void setup() {
 //################################ loop ################################
 void loop() {
   if (!openFile) {
+    // We don't start to record on the SD until we press the buttonOn.
+    // Actually, we don't start any measure before pressing the buttonOn.
     while (digitalRead(buttonOn) == HIGH)
       ;
     myFile = SD.open("data" + String(fileCounter) + ".csv", FILE_APPEND);
@@ -327,9 +329,13 @@ void drawEnd() {
   tft.drawString("ON", 200, 220);  //Text to display  with writing place
 }
 
+/*
+  Function that initialize all the screen parameters that will allow 
+  the live recording.
+*/
 void drawRecordingBackground() {
   /*fonction qui dessine le fond d'ecran pour l'enregistrement*/
-  //Serial.println("recordingbrackground");
+  Serial.println("recordingbrackground");
   // If button 1 ON
   tft.fillScreen(TFT_WHITE);  //Set White background
   //design of button ON
