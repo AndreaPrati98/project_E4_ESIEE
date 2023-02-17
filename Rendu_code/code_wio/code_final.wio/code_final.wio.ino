@@ -116,9 +116,17 @@ int spo2 = 0;
 
 //################################ setup ################################
 void setup() {
+  Serial.begin(115200);  // Serial Initializing
+  /* 
+    Wait for Serial to be ready, it's important, 'cause otherwise the risk is
+    that we miss some Serial prints
+  */
+  while(!Serial); 
+
   pinMode(buttonOn, INPUT);
   pinMode(buttonOff, INPUT);
 
+  // logMessagesOnSetUp();
   initializeSensors();
   drawWaitingScreen();
   createSavingFile();
@@ -402,7 +410,13 @@ void initializeSensors() {
   tft.fillScreen(TFT_WHITE);   //Black background
   spr.createSprite(320, 120);  //Create a Sprite for line chart IR (width 320, length 120)
 
-  Serial.begin(115200);  // Serial Initializing
+  char str[50];
+  sprintf(str, "This is the max height of the screen: %d\n", TFT_HEIGHT);
+  Serial.print(str);
+  sprintf(str, "This is the max width of the screen: %d\n", TFT_WIDTH);
+  Serial.print(str);
+  
+  
 
   lis.begin(Wire1);  //join i2c bus as master
   // Initialize sensor accelerometer
@@ -420,6 +434,9 @@ void initializeSensors() {
 
   if (!mlx.begin()) {
     Serial.println("Error connecting to MLX sensor. Check wiring.");
+    tft.fillScreen(TFT_BLACK);
+    tft.setTextSize(1);
+    tft.drawString("Error MLX sensor. ", 10, 50);
     while (1)
       ;
   };
@@ -433,8 +450,11 @@ void initializeSensors() {
   Serial.println("initialization done.");
 }
 
+/**
+  This is the class used to save the acceleration on the acceleration
+*/
 void saveAcceleration(float x, float y, float z) {
-  //Serial.println("saveacc");
+  Serial.println("saveacc");
   myFile.print(";");
   myFile.print(";");               //Column break
   myFile.print(String(millis()));  // Saving delay
@@ -524,3 +544,4 @@ int SpO2Calculator(long ir, long red) {
   if (spo2 < 0 || spo2 > 100) spo2 = 0;
   return spo2;
 }
+
