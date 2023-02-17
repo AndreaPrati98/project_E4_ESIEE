@@ -460,7 +460,7 @@ void initializeSensors() {
   This is the class used to save the acceleration on the acceleration
 */
 void saveAcceleration(float x, float y, float z) {
-  Serial.println("saveacc");
+  // Serial.println("saveacc");
   myFile.print(";");
   myFile.print(";");               //Column break
   myFile.print(String(millis()));  // Saving delay
@@ -474,7 +474,7 @@ void saveAcceleration(float x, float y, float z) {
 }
 
 void saveIr(long ir) {
-  //Serial.println("saveir");
+  // Serial.println("saveir");
   //Saving on SDcard
   myFile.print(String(millis()));  // Saving Delay
   myFile.print(";");
@@ -494,6 +494,7 @@ void saveHeartRate(int bpm) {
   myFile.print(String(millis()));  //Saving delay
   myFile.print(";");
   myFile.print(String(bpm));  // Saving HR value
+  myFile.println();
 }
 
 void saveSPO2(int spo2) {
