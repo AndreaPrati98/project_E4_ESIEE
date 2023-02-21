@@ -119,7 +119,9 @@ void setup() {
   Serial.begin(115200);  // Serial Initializing
   /* 
     Wait for Serial to be ready, it's important, 'cause otherwise the risk is
-    that we miss some Serial prints
+    that we miss some Serial prints.
+    I put eather way the evaluation in terms of time because the WIO terminal
+    has to work also if it's not plugged into the computer
   */
   while(!Serial); 
 
@@ -197,6 +199,7 @@ void loop() {
 
   if (digitalRead(buttonOff) == LOW) {
     drawEnd();
+    Serial.println("Stop button pressed");
     myFile.close();
     myFile.println("Fin enregistrement !");
     while (1)
