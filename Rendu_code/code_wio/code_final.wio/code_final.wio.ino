@@ -123,7 +123,10 @@ void setup() {
     I put eather way the evaluation in terms of time because the WIO terminal
     has to work also if it's not plugged into the computer
   */
-  while(!Serial); 
+  while(!Serial) {
+    if(millis() == 1000) 
+      break;
+  } 
 
   pinMode(buttonOn, INPUT);
   pinMode(buttonOff, INPUT);
@@ -424,11 +427,10 @@ void initializeSensors() {
   Serial.print(str);
   sprintf(str, "This is the max width of the screen: %d\n", TFT_WIDTH);
   Serial.print(str);
-  
-  
 
   lis.begin(Wire1);  //join i2c bus as master
   // Initialize sensor accelerometer
+  Serial.println("Initializing the accelerometer sensor");
   if (!lis) {
     Serial.println("ERROR");
     while (1)
@@ -436,11 +438,18 @@ void initializeSensors() {
   }
   lis.setOutputDataRate(LIS3DHTR_DATARATE_25HZ);  //Data output rate
   lis.setFullScaleRange(LIS3DHTR_RANGE_2G);       //Scale range set to 2g
+  
+  Serial.println("Finished to initialize accelerometer");
 
+  Serial.println("Initializing the Particle sensor");
   particleSensor.begin(Wire, I2C_SPEED_FAST);  //Use default I2C port, 400kHz speed
+  Serial.println("Use default I2C port, 400kHz speed");
   particleSensor.setup();                      //Configure sensor with default settings
+  Serial.println("Configure sensor with default settings")
   particleSensor.setPulseAmplitudeRed(0x0A);   //Turn Red LED to low to indicate sensor is running
-
+  
+  Serial.println("Finished to initialize the Paricle Sensor");
+  Serial.println("Initializing the MLX sensor");
   if (!mlx.begin()) {
     Serial.println("Error connecting to MLX sensor. Check wiring.");
     tft.fillScreen(TFT_BLACK);
@@ -449,9 +458,11 @@ void initializeSensors() {
     while (1)
       ;
   };
-
+  Serial.println("Finished to initialize MLX sensor");
+  Serial.println("Initializing the SD card");
   //initialisaiton of SD card
   if (!SD.begin(SDCARD_SS_PIN, SDCARD_SPI)) {
+  
     Serial.println("initialization failed!");
     while (1)
       ;
