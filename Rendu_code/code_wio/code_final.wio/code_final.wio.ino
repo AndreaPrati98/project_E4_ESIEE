@@ -445,7 +445,7 @@ void initializeSensors() {
   particleSensor.begin(Wire, I2C_SPEED_FAST);  //Use default I2C port, 400kHz speed
   Serial.println("Use default I2C port, 400kHz speed");
   particleSensor.setup();                      //Configure sensor with default settings
-  Serial.println("Configure sensor with default settings")
+  Serial.println("Configure sensor with default settings");
   particleSensor.setPulseAmplitudeRed(0x0A);   //Turn Red LED to low to indicate sensor is running
   
   Serial.println("Finished to initialize the Paricle Sensor");
